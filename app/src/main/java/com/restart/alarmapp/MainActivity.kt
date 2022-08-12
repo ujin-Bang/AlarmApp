@@ -43,22 +43,25 @@ class MainActivity : AppCompatActivity() {
 
     private fun initChageAlarmTimeButton() {
         val changeAlarmButton = findViewById<Button>(R.id.changeAlarmTimeButton)
+
         //현재 시간을 일단 가져온다.
         //TimePickDialog 띄워줘서 시간 설정을 하도록 하게끔 하고, 그 시간을 가져와서
         //데이터를 저장한다.
         //뷰를 업데이트한다.
         //기본에 있던 알람을 삭제한다.
+        changeAlarmButton.setOnClickListener {
+            val calendar = Calendar.getInstance() //캘린더 클래스 객체화. 현재 시간 기본설정.
 
-        val calendar = Calendar.getInstance() //캘린더 클래스 객체화. 현재 시간 기본설정.
+            //타임피커 다이얼로그띄우기 : 기본설정- 캘린더에서 현재 시간 가져오기.
+            TimePickerDialog(this, { picker, hour, minute ->
+                val model = saveAlarmModel(hour, minute, false)
 
-        //타임피커 다이얼로그띄우기 : 기본설정- 캘린더에서 현재 시간 가져오기.
-        TimePickerDialog(this, { picker, hour, minute ->
-            val model = saveAlarmModel(hour, minute, false)
+            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false)
+                .show()
 
-        }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false)
-            .show()
+        }
+        }
 
-    }
 
     //데이터 저장된 함수만들기. 여러곳에서 사용하기 때문에 함수로 따로 빼기.
     private fun saveAlarmModel(
